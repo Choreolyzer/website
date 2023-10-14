@@ -1,6 +1,6 @@
 import axios from "axios";
 import {useState} from "react";
-import {FaArrowRight, FaX, FaXmark} from "react-icons/fa6";
+import {FaArrowRight, FaRotateRight, FaX, FaXmark} from "react-icons/fa6";
 import {FaWindowClose} from "react-icons/fa";
 
 export default function Upload({show, toggleShow}) {
@@ -42,20 +42,27 @@ export default function Upload({show, toggleShow}) {
                     className="relative grid h-auto w-auto place-self-center bg-white rounded-xl border-2 border-gray p-8">
                     <div className="relative w-[640px] aspect-video border-dashed border-8 p-2">
                         {previewUrl && (
-                            <div>
-                                <video className={"object-center"} controls>
+                            <div className={"relative"}>
+                                <video className={"robject-center"} controls>
                                     <source src={previewUrl} type="video/mp4"/>
                                     Your browser does not support the video tag.
                                 </video>
-                                <div></div>
+                                <button
+                                    onClick={() => {
+                                        setPreviewUrl(null);
+                                        setFile(null);
+                                    }}
+                                    className={"grid place-items-center w-8 h-8 bg-green-500 rounded-full absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 hover:bg-green-600"}>
+                                    <FaRotateRight/>
+                                </button>
                             </div>
                         )}
                         {!previewUrl && (
                             <div className={"relative w-full h-full"}>
                                 <input className="h-full w-full opacity-0" type="file" accept="video/*"
                                        onChange={onFileChange}/>
-                                <div className={"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"}>
-                                    <p className={"text-xl text-gray-500"}>
+                                <div className={"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"}>
+                                    <p className={"text-xl text-gray-500 select-none"}>
                                         Upload a video
                                     </p>
                                 </div>
