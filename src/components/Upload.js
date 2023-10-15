@@ -3,33 +3,7 @@ import {useState} from "react";
 import {FaArrowRight, FaRotateRight, FaX, FaXmark} from "react-icons/fa6";
 import {FaWindowClose} from "react-icons/fa";
 
-export default function Upload({show, toggleShow}) {
-    const [file, setFile] = useState(null);
-    const [previewUrl, setPreviewUrl] = useState(null);
-
-    const onFileChange = async (e) => {
-        const file = e.target.files[0];
-        setFile(file);
-
-        setPreviewUrl(URL.createObjectURL(file));
-    };
-
-    const onUpload = async () => {
-        if (file == null) return;
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-            const response = await axios.post('http://128.61.35.242:5000/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log('Upload success:', response.data);
-        } catch (error) {
-            console.error('Upload error:', error);
-        }
-    }
+export default function Upload({show, toggleShow, setStage, file, setFile, previewUrl, setPreviewUrl, onFileChange}) {
 
     const toggleVisibility = () => {
         toggleShow(!show);
@@ -69,7 +43,10 @@ export default function Upload({show, toggleShow}) {
                             </div>
                         )}
                     </div>
-                    <button onClick={onUpload}
+                    <button onClick={() => {
+                        if (file == null) return;
+                        setStage(2);
+                    }}
                             className={"hover:bg-blue-500 grid place-items-center rounded-full bg-blue-400 w-24 h-24 absolute top-1/2 right-0 origin-center translate-x-1/2 -translate-y-1/2"}>
                         <FaArrowRight size={28}/>
                     </button>
@@ -78,6 +55,7 @@ export default function Upload({show, toggleShow}) {
                             setFile(null);
                             setPreviewUrl(null);
                             toggleVisibility();
+                            setStage(0);
                         }}
                         className={"hover:bg-red-500 grid place-items-center rounded-full bg-red-400 w-12 h-12 absolute top-0 right-0 origin-center translate-x-1/2 -translate-y-1/2"}>
                         <FaXmark size={28}/>

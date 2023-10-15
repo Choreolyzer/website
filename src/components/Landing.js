@@ -1,4 +1,4 @@
-export default function Landing({toggleShow}) {
+export default function Landing({toggleShow, setStage}) {
     return (
         <div className="w-screen h-screen grid">
             <div className="place-self-center">
@@ -6,7 +6,10 @@ export default function Landing({toggleShow}) {
                     Choreolyzer
                 </p>
                 <p className="text-2xl">
-                    <a href={"#"} onClick={toggleShow}>
+                    <a href={"#"} onClick={() => {
+                        toggleShow(true);
+                        setStage(1);
+                    }}>
                         Try it out ->
                     </a>
                 </p>
